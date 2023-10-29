@@ -35,6 +35,10 @@ class QuoteContainer extends Component {
 
   render() {
     return (
+    <header>
+    <title>Bliss</title>
+        <h1>Bliss</h1>
+        <div className="Quotes">
       <Card style={{ width: '18rem' }}>
         <Card.Body>
           <Card.Title>{this.state.quote.a}</Card.Title>
@@ -44,6 +48,8 @@ class QuoteContainer extends Component {
           <Button variant="primary" onClick={() => this.refreshPage()}>New Quote</Button>
         </Card.Body>
       </Card>
+      </div>
+      </header>
     );
   }
 }
