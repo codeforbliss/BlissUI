@@ -13,25 +13,25 @@ class QuoteContainer extends Component {
     }
   }
 
-  componentDidMount() {
-    QuoteService.getQuote().then((res) => {
-      this.setState({quote: res.data});
-      console.log(this.state.quote);
-    })
-    .catch((error)=> {
-      if (error.response) {
-        // The request was made and the server responded with a status code
-        // that falls out of the range of 2xx
-        console.log(error.response.data);
-        console.log(error.response.status);
-        console.log(error.response.headers);
-      }
-    });
-  }
+    componentDidMount() {
+      this.getQuote();
+    }
 
-  refreshPage() {
-    window.location.reload();
-  }
+    getQuote() {
+      QuoteService.getQuote().then((res) => {
+        this.setState({quote: res.data});
+        console.log(this.state.quote);
+      })
+      .catch((error)=> {
+        if (error.response) {
+          // The request was made and the server responded with a status code
+          // that falls out of the range of 2xx
+          console.log(error.response.data);
+          console.log(error.response.status);
+          console.log(error.response.headers);
+        }
+      });
+    }
 
   render() {
     return (
@@ -45,7 +45,7 @@ class QuoteContainer extends Component {
           <Card.Text>
             {this.state.quote.q}
           </Card.Text>
-          <Button variant="primary" onClick={() => this.refreshPage()}>New Quote</Button>
+          <Button variant="primary" onClick={() => this.getQuote()}>New Quote</Button>
         </Card.Body>
       </Card>
       </div>
