@@ -1,9 +1,11 @@
 import './App.css';
 import QuoteContainer from './components/QuoteContainer';
-import {BrowserRouter as Router, Route, Link, Switch, Routes } from 'react-router-dom';
+import {BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import PostList from './components/PostList';
 import Layout from './components/Layout';
 import CreatePost from './components/CreatePost';
+import Login from './components/Login';
+import AnonymousSignIn from './components/AnonymousLogin';
 
 function App() {
   return (
@@ -13,8 +15,9 @@ function App() {
         <Routes>
           <Route path="/" element={<Layout />}>
           <Route path= "postlist" element={<PostList />} />
-          <Route index element={<QuoteContainer />} />
           <Route path= "createPost" element={<CreatePost />} />
+          <Route path= "quote" element={<QuoteContainer />} />
+          <Route index element={<AnonymousSignIn />} />
           </Route>
         </Routes>
       </div>
