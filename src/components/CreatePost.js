@@ -39,7 +39,7 @@ const CreatePost = () => {
         <Form.Control as="textarea" placeholder="Enter Rant" rows={7} onChange={handleTextChange} />
       </Form.Group>
 
-      <Button variant="primary"  onClick={postRant}>
+      <Button variant="primary" type="submit" onClick={postRant}>
         Submit
       </Button>
     </Form>
