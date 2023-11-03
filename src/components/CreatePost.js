@@ -21,8 +21,6 @@ const CreatePost = () => {
       text: rant
     }
 
-    console.log(post)
-
     axios.post('http://localhost:8080/posts/', post)
     .then(function (response) {
       console.log(response);

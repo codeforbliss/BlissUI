@@ -1,39 +1,32 @@
-import { Component } from 'react';
+import {useState, useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import QuoteService from '../services/QuoteService';
-import axios from 'axios';
 
-class QuoteContainer extends Component {
-  constructor(props) {
-    super(props)
 
-    this.state = {
-      quote: [],
-    }
-  }
+const QuoteContainer = () => {
 
-    componentDidMount() {
-      this.getQuote();
-    }
+  const[quote, setQuote] = useState('');
+  const[newQuote, setNewQuote] = useState(true);
 
-    getQuote() {
-      QuoteService.getQuote().then((res) => {
-        this.setState({quote: res.data});
-        console.log(this.state.quote);
-      })
-      .catch((error)=> {
-        if (error.response) {
-          // The request was made and the server responded with a status code
-          // that falls out of the range of 2xx
-          console.log(error.response.data);
-          console.log(error.response.status);
-          console.log(error.response.headers);
-        }
-      });
-    }
-
-  render() {
+    useEffect(() => {
+      if(newQuote) {
+        QuoteService.getQuote().then((res) => {
+          setQuote(res.data);
+        })
+        .catch((error)=> {
+          if (error.response) {
+            // The request was made and the server responded with a status code
+            // that falls out of the range of 2xx
+            console.log(error.response.data);
+            console.log(error.response.status);
+            console.log(error.response.headers);
+          }
+        });
+      }
+      setNewQuote(false);
+    }, [quote, newQuote])
+ 
     return (
     <header>
     <title>Bliss</title>
@@ -41,17 +34,16 @@ class QuoteContainer extends Component {
         <div className="Quotes">
       <Card style={{ width: '18rem' }}>
         <Card.Body>
-          <Card.Title>{this.state.quote.a}</Card.Title>
+          <Card.Title>{quote.a}</Card.Title>
           <Card.Text>
-            {this.state.quote.q}
+            {quote.q}
           </Card.Text>
-          <Button variant="primary" onClick={() => this.getQuote()}>New Quote</Button>
+          <Button variant="primary" onClick={() => setNewQuote(true)}>New Quote</Button>
         </Card.Body>
       </Card>
       </div>
       </header>
     );
-  }
 }
 
 export default QuoteContainer;
