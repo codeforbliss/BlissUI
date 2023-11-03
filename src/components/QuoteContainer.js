@@ -8,7 +8,7 @@ const QuoteContainer = () => {
 
   const[quote, setQuote] = useState('');
   const[newQuote, setNewQuote] = useState(true);
-
+  
     useEffect(() => {
       if(newQuote) {
         QuoteService.getQuote().then((res) => {

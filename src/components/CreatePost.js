@@ -20,7 +20,7 @@ const CreatePost = () => {
       author: 'test',
       text: rant
     }
-
+    
     axios.post('http://localhost:8080/posts/', post)
     .then(function (response) {
       console.log(response);
