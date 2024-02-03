@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { Component, useState } from 'react';
+import { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 
@@ -13,15 +13,10 @@ const CreatePost = () => {
 
   const postRant = () =>  {
     let post = {
-      id :{
-        timestamp: Date.now() ,
-        date: new Date(Date.now()).toLocaleString()
-      },
+      postDate: new Date(Date.now()).toLocaleString(),
       author: 'test',
       text: rant
     }
-
-    console.log(post)
 
     axios.post('http://localhost:8080/posts/', post)
     .then(function (response) {
@@ -45,7 +40,5 @@ const CreatePost = () => {
     </Form>
   )
 } 
-
-
 
 export default CreatePost;

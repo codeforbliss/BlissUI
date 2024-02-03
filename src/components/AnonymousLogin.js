@@ -1,33 +1,31 @@
 import React, { useEffect, useState } from 'react';
-import { getAuth, signInAnonymously } from 'firebase/auth';
+import firebase from 'firebase/app';
+import { signInAnonymously, updateProfile } from 'firebase/auth';
+import 'firebase/auth';
+import { auth } from '../services/firebase';
+import { useNavigate } from 'react-router-dom';
 
 function AnonymousSignIn() {
   const [user, setUser] = useState('');
+  const navigate = useNavigate();
 
-  const auth = getAuth();
-
-  useEffect(() => {
-    signInAnonymously(auth)
+  const handleAnonymousLogin = async () => {
+    await signInAnonymously(auth)
       .then((userCredential) => {
         const user = userCredential.user;
-        setUser(user);
+        updateProfile(user, {displayName: 'AnonymousRanter' + auth.currentUser.uid})
+        console.log(auth.currentUser.uid);
+        setUser(user);  
+        navigate('/quote');
       })
       .catch((error) => {
         console.error(error);
       });
-  }, []);
+  } 
 
   return (
     <div>
-      {user ? (
-        <div>
-          <p>Welcome!</p>
-          <div>User</div>
-          <p>{user.uid}</p>
-        </div>
-      ) : (
-        <p>Signing in anonymously...</p>
-      )}
+        <button onClick={handleAnonymousLogin}>Continue Anonymously</button>
     </div>
   );
 }
