@@ -1,7 +1,7 @@
 import {useState, useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
-import QuoteService from '../services/QuoteService';
+import quoteService from '../services/quotes';
 
 
 const QuoteContainer = () => {
@@ -10,20 +10,14 @@ const QuoteContainer = () => {
   const[newQuote, setNewQuote] = useState(true);
   
     useEffect(() => {
-      if(newQuote) {
-        QuoteService.getQuote().then((res) => {
-          setQuote(res.data);
-        })
-        .catch((error)=> {
-          if (error.response) {
-            // The request was made and the server responded with a status code
-            // that falls out of the range of 2xx
-            console.log(error.response.data);
-            console.log(error.response.status);
-            console.log(error.response.headers);
-          }
-        });
+
+      const fetchQuote = async () => {
+        const data = await quoteService.getQuote()
+        return data
       }
+
+      console.log(fetchQuote())
+
       setNewQuote(false);
     }, [quote, newQuote])
  
