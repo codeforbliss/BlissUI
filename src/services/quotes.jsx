@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const baseurl = "/quote/"
+const baseurl = "/api/quotes/"
 
 let token = null
 
@@ -23,7 +23,6 @@ const quoteIdGenerator = () => {
 
 const getQuote = async () => {
     let response = await axios.get(baseurl + quoteIdGenerator());
-    console.log(token)
     return response.data
 }
 

@@ -21,7 +21,6 @@ const Login = () => {
         window.localStorage.setItem(
           'loggedUser', JSON.stringify(user)
         )
-        loginService.setToken(user.token)
         quotesService.setToken(user.token)
         navigate('/quotes')
     }

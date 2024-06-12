@@ -1,5 +1,4 @@
 import './App.css';
-import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
 import QuoteContainer from './components/QuoteContainer';
 import {BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import PostList from './components/PostList';
