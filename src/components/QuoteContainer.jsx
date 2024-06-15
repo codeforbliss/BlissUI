@@ -9,17 +9,18 @@ const QuoteContainer = () => {
   const[quote, setQuote] = useState('');
   const[newQuote, setNewQuote] = useState(true);
   
-    useEffect(() => {
-
+  useEffect(() => {
+    if(newQuote) {
       const fetchQuote = async () => {
         const data = await quoteService.getQuote()
-        return data
+        setQuote(data)
       }
 
-      console.log(fetchQuote())
+      fetchQuote()
+      setNewQuote(false)
+    }
 
-      setNewQuote(false);
-    }, [quote, newQuote])
+  }, [quote, newQuote])
  
     return (
     <header>
