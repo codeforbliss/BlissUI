@@ -3,7 +3,7 @@ import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.css';
 import Card from 'react-bootstrap/Card';
 
-function PostList() {
+const Post = () => {
     const [posts, setPosts] = useState([]);
 
     useEffect(() => {
@@ -37,13 +37,9 @@ function PostList() {
                 </div>
             ))}
         </div>
-
-        
-
-        
     );
 }
 
-export default PostList;
+export default Post;
 
 
