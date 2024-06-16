@@ -3,7 +3,7 @@ import { Button, Form } from 'react-bootstrap';
 import { postRant } from '../common/BackendApi';
 
 
-const CreatePost = () => {
+const PostForm = () => {
   const[rant, setRant] = useState('');
   const[author, setAuthor] = useState('');
 
@@ -34,4 +34,4 @@ const CreatePost = () => {
 
 
 
-export default CreatePost;
+export default PostForm;

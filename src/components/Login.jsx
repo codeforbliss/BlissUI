@@ -10,9 +10,18 @@ const Login = () => {
     const username = useField("text");
     const password = useField("password");
 
+    const handleSignup = async (event, username, password) => {
+      event.preventDefault()
+
+      await loginService.signUp({
+          username, password
+      })
+
+      handleLogin(event, username, password)
+    }
+
     const handleLogin = async (event, username, password) => {
         event.preventDefault()
-
 
         const user = await loginService.login({
             username, password
@@ -37,6 +46,9 @@ const Login = () => {
         </Form.Group>
         <Button variant="primary" type="button" onClick={(e) => handleLogin(e, username.value, password.value)}>
           Submit
+        </Button>
+        <Button variant="primary" type="button" onClick={(e) => handleSignup(e, username.value, password.value)}>
+          Signup
         </Button>
       </Form>
     )

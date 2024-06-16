@@ -21,4 +21,9 @@ const login = async (credential) => {
     return response.data
 }
 
-export default {login, setToken}
+const signUp = async (credential) => {
+  const response = await axios.post(baseUrl + "register", credential)
+  return response.data
+}
+
+export default {login, setToken, signUp}
