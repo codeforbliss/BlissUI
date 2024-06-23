@@ -1,28 +1,33 @@
-import {useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
-import quoteService from '../services/quotes';
 import Navbar from "../components/Navbar";
+import { useSelector, useDispatch } from 'react-redux';
+import { isValidUser } from '../reducer/userReducer';
+import { newQuote } from '../reducer/quoteReducer';
 
 
 const Quotes = () => {
-
-  const[quote, setQuote] = useState('');
-  const[newQuote, setNewQuote] = useState(true);
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.user)
+  const quote = useSelector((state) => state.quote)
   
   useEffect(() => {
-    if(newQuote) {
-      const fetchQuote = async () => {
-        const data = await quoteService.getQuote()
-        setQuote(data)
-      }
+    dispatch(isValidUser())
+  }, [dispatch])
 
-      fetchQuote()
-      setNewQuote(false)
+  useEffect(() => {
+    if(user) {
+      dispatch(newQuote())
     }
+  }, [user, dispatch])
 
-  }, [quote, newQuote])
- 
+  const setNewQuote = () => {
+    if(user) {
+      dispatch(newQuote())
+    }
+  }
+
     return (
       <>
         <Navbar/>
@@ -32,11 +37,11 @@ const Quotes = () => {
               <div className="Quotes">
             <Card style={{ width: '18rem' }}>
               <Card.Body>
-                <Card.Title>{quote.a}</Card.Title>
+                <Card.Title>{quote.author}</Card.Title>
                 <Card.Text>
-                  {quote.q}
+                  {quote.quote}
                 </Card.Text>
-                <Button variant="primary" onClick={() => setNewQuote(true)}>New Quote</Button>
+                <Button variant="primary" onClick={() => setNewQuote()}>New Quote</Button>
               </Card.Body>
             </Card>
             </div>

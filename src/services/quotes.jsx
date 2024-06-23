@@ -17,13 +17,9 @@ axios.interceptors.request.use(config => {
   return Promise.reject(error)
 })
 
-
-const quoteIdGenerator = () => {
-    return Math.floor(Math.random() * (50) + 1);
-}
-
 const getQuote = async () => {
-    let response = await axios.get(baseurl + quoteIdGenerator());
+    let response = await axios.get(baseurl + 'random');
+    console.log(response)
     return response.data
 }
 
