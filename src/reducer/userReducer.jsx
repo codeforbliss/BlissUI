@@ -1,9 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
 import quoteService from '../services/quotes';
 import loginService from '../services/login';
+import locationService from '../services/locationService';
 import { newQuote } from "./quoteReducer";
 
-const initialState = ""
+const initialState = {
+    user: null,
+    location: null
+  };
 
 const userSlice = createSlice({
     name: "user",
@@ -14,15 +18,19 @@ const userSlice = createSlice({
         },
         removeUser(state, action) {
             return ""
+        },
+        setLocation(state, action) {
+            return action.payload
+        },
+        clearLocation(state) {
+            return null
         }
     }
 })
 
 export const initializeUser = (username, password) => {
     return async dispatch => {
-        const user = await loginService.login({
-            username, password
-        })
+        const user = await loginService.login({username, password});
         window.localStorage.clear();
         window.localStorage.setItem(
           'loggedUser', JSON.stringify(user)
@@ -52,5 +60,23 @@ export const isValidUser = () => {
     }
 }
 
-export const { setUser, removeUser} = userSlice.actions
+export const requestLocation = () => {
+    return async dispatch => {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            const { latitude, longitude } = position.coords;
+            const location = { latitude, longitude };
+            locationService.setUserLocation(location);
+            dispatch(setLocation(location));
+          },
+          (error) => console.error('Error getting location:', error)
+        );
+      } else {
+        console.error('Geolocation is not supported by this browser.');
+      }
+    };
+  };
+
+export const { setUser, removeUser, setLocation, clearLocation} = userSlice.actions
 export default userSlice.reducer

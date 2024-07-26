@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.css';
 import Card from 'react-bootstrap/Card';
@@ -20,7 +20,7 @@ const Post = () => {
         <div>
             <h1>Posts</h1>
             {posts.map((post) => (
-                <div>
+                <div key={post.id}>
                     <Card>
                         <Card.Body>
                             <blockquote className="blockquote mb-0">
