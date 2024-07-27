@@ -22,24 +22,7 @@ const getQuote = async () => {
       rant : "random",
       author : "random"
     })
-    console.log(response)
     return response.data
 }
 
-const postRant = async (rant, author) => {
-  const post = {
-    author,
-    rant
-  };
-  const headers = { Authorization : token };
-
-  try {
-    axios.post('/api/posts/create', post, { headers });
-  } catch (error) {
-    console.error('Error posting rant:', error);
-    throw error; // Rethrow error to handle it in the component
-  }
-
-}
-
-export default {getQuote, setToken, postRant}
+export default {getQuote, setToken}

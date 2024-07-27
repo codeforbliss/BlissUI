@@ -2,7 +2,6 @@ import { createSlice } from "@reduxjs/toolkit";
 import quoteService from '../services/quotes';
 import loginService from '../services/login';
 import locationService from '../services/locationService';
-import { newQuote } from "./quoteReducer";
 
 const initialState = {
     user: null,
@@ -53,6 +52,7 @@ export const isValidUser = () => {
             } else {
                 window.localStorage.clear();
                 dispatch(removeUser())
+
             }
         } else {
             dispatch(removeUser())

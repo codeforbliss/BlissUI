@@ -16,7 +16,7 @@ const setToken = (newToken) => {
   }
 }
 
-// Parse and set the token
+// // Parse and set the token
 const user = JSON.parse(loggedUserJSON);
 if (user && user.token) {
   setToken(user.token);
@@ -24,12 +24,9 @@ if (user && user.token) {
   console.error('User not logged in or token not available');
 }
 
-// Axios request interceptor to add token to all requests
-const axiosInstance = axios.create({
-  baseURL: baseUrl
-});
+// // Axios request interceptor to add token to all requests
 
-axiosInstance.interceptors.request.use(config => {
+axios.interceptors.request.use(config => {
   // Ensure the interceptor is applied
   config.headers.Authorization = token;
   return config;
@@ -37,24 +34,15 @@ axiosInstance.interceptors.request.use(config => {
 
 // Function to post a rant
 export const postRant = async (rant, author) => {
+  console.log("posting")
   const post = {
     author,
     rant
   };
   const headers = { Authorization : token };
-
-  const getQuote = async () => {
-    axiosInstance.post("/api/posts/create", {
-      rant : "random",
-      author : "random"
-    })
-  }
-
   try {
-    axios.post(baseUrl + '/create', post, { headers });
-    getQuote();
-    //console.log('Post successful:', response);
-    //return response;
+    console.log("posting")
+    axios.post(baseUrl + '/create', post);
   } catch (error) {
     console.error('Error posting rant:', error);
     throw error; // Rethrow error to handle it in the component

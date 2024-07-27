@@ -1,45 +1,58 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
+import { isValidUser } from '../reducer/userReducer';
+import postService from '../services/postService';
 import 'bootstrap/dist/css/bootstrap.css';
 import Card from 'react-bootstrap/Card';
+import Layout from './Navbar';
+import '../assets/Post.css'; // Import the custom CSS file
 
 const Post = () => {
     const [posts, setPosts] = useState([]);
+    const dispatch = useDispatch();
+    const user = useSelector((state) => state.user);
+    const token = "Bearer " + useSelector((state) => state.user.token);
 
     useEffect(() => {
-        axios.get('http://localhost:8080/posts/all')  // Replace with the actual API endpoint
-            .then((response) => {
-                setPosts(response.data);
-            })
-            .catch((error) => {
-                console.error(error);
-            });
-    }, []);
+        dispatch(isValidUser());
+    }, [dispatch]);
+
+    useEffect(() => {
+        const fetchPosts = async () => {
+            if (user.token) {
+                try {
+                    const postsData = await postService.getAllPosts(token);
+                    setPosts(postsData.data);
+                } catch (error) {
+                    console.error("Failed to fetch posts", error);
+                }
+            }
+        };
+        fetchPosts();
+    }, [user.token]);
 
     return (
-        <div>
-            <h1>Posts</h1>
-            {posts.map((post) => (
-                <div key={post.id}>
-                    <Card>
-                        <Card.Body>
-                            <blockquote className="blockquote mb-0">
-                                <p>
-                                    {post.text}
-                                </p>
-                                <footer className="blockquote-footer">
-                                    {post.author}
-                                </footer>
-                            </blockquote>
-                        </Card.Body>
-                    </Card>
-                    <br></br>
-                </div>
-            ))}
-        </div>
+        <>
+            <Layout></Layout>
+            <div className="post-container">
+                <h1 className="post-header">Posts</h1>
+                {Array.isArray(posts) && posts.map((post) => (
+                    <div key={post.id} className="post-card">
+                        <Card>
+                            <Card.Body>
+                                <blockquote className="blockquote mb-0">
+                                    <p>{post.text}</p>
+                                    <footer className="blockquote-footer">
+                                        {post.author}
+                                    </footer>
+                                </blockquote>
+                            </Card.Body>
+                        </Card>
+                    </div>
+                ))}
+            </div>
+        </>
     );
-}
+};
 
 export default Post;
-
-

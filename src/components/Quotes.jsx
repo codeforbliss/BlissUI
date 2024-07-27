@@ -6,24 +6,36 @@ import Navbar from "../components/Navbar";
 import { useSelector, useDispatch } from 'react-redux';
 import { isValidUser } from '../reducer/userReducer';
 import { newQuote } from '../reducer/quoteReducer';
+import { useNavigate } from 'react-router-dom';
 import LocationRequest from './LocationRequest'; // Make sure to update the path as necessary
 
 const Quotes = () => {
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.user)
-  const quote = useSelector((state) => state.quote)
-  
+  const navigate = useNavigate();
+  const user = useSelector((state) => state.user);
+  const quote = useSelector((state) => state.quote);
+  const [loading, setLoading] = useState(true);
   const [showLocationModal, setShowLocationModal] = useState(true);
 
   useEffect(() => {
-    dispatch(isValidUser())
+    const validateUser = async () => {
+      await dispatch(isValidUser());
+      setLoading(false);
+    };
+
+    validateUser();
   }, [dispatch])
 
   useEffect(() => {
-    if(user) {
-      dispatch(newQuote())
+    if (!loading) {
+      if (user.token) {
+        dispatch(newQuote());
+      } else {
+        window.alert('Please log in again.');
+        navigate('/');
+      }
     }
-  }, [user, dispatch])
+  }, [loading])
 
   const setNewQuote = () => {
     if(user) {

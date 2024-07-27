@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { requestLocation } from '../reducer/userReducer';
 import { Modal, ModalBody } from 'react-bootstrap';
@@ -7,10 +7,16 @@ const LocationRequest = ({ onClose }) => {
   const dispatch = useDispatch();
   const location = useSelector(state => state.user.location);
   const error = useSelector(state => state.user.error);
+  const [showModal, setShowModal] = useState(true)
 
   useEffect(() => {
     // Dispatch the requestLocation action when the component mounts
-    dispatch(requestLocation());
+    if (location == null) {
+      dispatch(requestLocation());
+    }
+    else {
+      setShowModal(false)
+    }
   }, [dispatch]);
 
   useEffect(() => {
@@ -21,7 +27,7 @@ const LocationRequest = ({ onClose }) => {
   }, [location, error, onClose]);
 
   return (
-    <Modal show={true} onHide={onClose}>
+    <Modal show={showModal} onHide={onClose}>
       <ModalBody>
         <h2>Location Access Required</h2>
         <p>We need your location to provide better services.</p>
