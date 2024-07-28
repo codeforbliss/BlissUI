@@ -27,19 +27,20 @@ const LocationRequest = ({ onClose }) => {
   }, [location, error, onClose]);
 
   return (
-    <Modal show={showModal} onHide={onClose}>
-      <ModalBody>
-        <h2>Location Access Required</h2>
-        <p>We need your location to provide better services.</p>
-        {location && (
-          <div>
-            <p>Latitude: {location.latitude}</p>
-            <p>Longitude: {location.longitude}</p>
-          </div>
-        )}
-        {error && <p>Error: {error}</p>}
-      </ModalBody>
-    </Modal>
+    <></>
+    // <Modal show={showModal} onHide={onClose}>
+    //   <ModalBody>
+    //     <h2>Location Access Required</h2>
+    //     <p>We need your location to provide better services.</p>
+    //     {location && (
+    //       <div>
+    //         <p>Latitude: {location.latitude}</p>
+    //         <p>Longitude: {location.longitude}</p>
+    //       </div>
+    //     )}
+    //     {error && <p>Error: {error}</p>}
+    //   </ModalBody>
+    // </Modal>
   );
 };
 
