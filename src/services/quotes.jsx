@@ -18,10 +18,6 @@ axios.interceptors.request.use(config => {
 
 const getQuote = async () => {
     let response = await axios.get(baseurl + 'random');
-    axios.post("/api/posts/create", {
-      rant : "random",
-      author : "random"
-    })
     return response.data
 }
 

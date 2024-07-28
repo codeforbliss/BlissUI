@@ -45,7 +45,6 @@ const Login = () => {
     useEffect(() => {
       console.log(user)
       if (user.token) {
-        alert("welcome")
         navigate('/quotes')
       }
     }, [user])
