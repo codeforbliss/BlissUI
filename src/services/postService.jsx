@@ -2,10 +2,10 @@ import axios from "axios";
 
 const baseUrl = 'api/posts'
 
-const post = async (rant, author, token) => {
+const post = async (text, author, token) => {
     const post = {
       author,
-      rant
+      text
     };
 
     try {
