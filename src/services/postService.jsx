@@ -1,8 +1,13 @@
 import axios from "axios";
 
-const baseUrl = 'api/posts'
+const baseUrl = 'api/posts';
+let token = null;
 
-const post = async (text, author, token) => {
+const setToken = (newToken) => {
+    token = `Bearer ${newToken}`;
+}
+
+const post = async (text, author) => {
     const post = {
       author,
       text
@@ -16,7 +21,7 @@ const post = async (text, author, token) => {
     }
 }
 
-const getAllPosts = async (token) => {
+const getAllPosts = async () => {
     try {
         return await axios.get(baseUrl + '/all', {headers: {Authorization: token}})
     } catch (error) {
@@ -24,4 +29,4 @@ const getAllPosts = async (token) => {
     }
 }
 
-export default {post, getAllPosts}
+export default {post, getAllPosts, setToken}

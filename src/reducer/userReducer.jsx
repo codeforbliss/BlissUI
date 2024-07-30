@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import quoteService from '../services/quotes';
 import loginService from '../services/login';
 import locationService from '../services/locationService';
+import postService from "../services/postService";
 
 const initialState = {
     user: null,
@@ -34,9 +35,8 @@ export const initializeUser = (username, password) => {
         window.localStorage.setItem(
           'loggedUser', JSON.stringify(user)
         )
-        quoteService.setToken(user.token)
-        console.log(user.token)
-        dispatch(setUser(user))
+        quoteService.setToken(user.token);
+        dispatch(setUser(user));
     }
 }
 
@@ -45,9 +45,10 @@ export const isValidUser = () => {
         const loggedUserJSON = window.localStorage.getItem("loggedUser");
         if (loggedUserJSON) {
             const user = JSON.parse(loggedUserJSON);
-            const isValidToken = await loginService.checkToken(user.token)
-            if(!isValidToken) {
-                quoteService.setToken(user.token)
+            const isTokenExpired = await loginService.checkToken(user.token)
+            if(!isTokenExpired) {
+                quoteService.setToken(user.token);
+                postService.setToken(user.token);
                 dispatch(setUser(user))
             } else {
                 window.localStorage.clear();
