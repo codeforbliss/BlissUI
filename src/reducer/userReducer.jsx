@@ -36,6 +36,7 @@ export const initializeUser = (username, password) => {
           'loggedUser', JSON.stringify(user)
         )
         quoteService.setToken(user.token);
+        postService.setToken(user.token);
         dispatch(setUser(user));
     }
 }
