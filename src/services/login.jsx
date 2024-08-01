@@ -13,8 +13,12 @@ const signUp = async (credential) => {
 }
 
 const checkToken = async (token) => {
-  const response = await axios.get(baseUrl + `expired?token=${token}`)
-  return response.data
-}
+  try {
+    const response = await axios.get(`${baseUrl}expired?token=${token}`);
+    return response.data;
+  } catch (error) {
+    return true;
+  }
+};
 
 export default {login, signUp, checkToken}

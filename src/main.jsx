@@ -2,11 +2,10 @@ import ReactDOM from 'react-dom/client'
 import { configureStore } from '@reduxjs/toolkit'
 import { Provider } from 'react-redux'
 import App from './App.jsx'
-
 import userReducer from './reducer/userReducer.jsx'
 import quoteReducer from './reducer/quoteReducer.jsx'
-
-import './index.css'
+import './assets/index.css'
+import 'bootstrap/dist/css/bootstrap.min.css'
 
 const store = configureStore({
   reducer: {

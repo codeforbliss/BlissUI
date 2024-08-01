@@ -1,9 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
 import quoteService from '../services/quotes';
 import loginService from '../services/login';
-import { newQuote } from "./quoteReducer";
+import locationService from '../services/locationService';
+import postService from "../services/postService";
 
-const initialState = ""
+const initialState = {
+    user: null,
+    location: null
+  };
 
 const userSlice = createSlice({
     name: "user",
@@ -14,22 +18,26 @@ const userSlice = createSlice({
         },
         removeUser(state, action) {
             return ""
+        },
+        setLocation(state, action) {
+            return action.payload
+        },
+        clearLocation(state) {
+            return null
         }
     }
 })
 
 export const initializeUser = (username, password) => {
     return async dispatch => {
-        const user = await loginService.login({
-            username, password
-        })
+        const user = await loginService.login({username, password});
         window.localStorage.clear();
         window.localStorage.setItem(
           'loggedUser', JSON.stringify(user)
         )
-        quoteService.setToken(user.token)
-        console.log(user.token)
-        dispatch(setUser(user))
+        quoteService.setToken(user.token);
+        postService.setToken(user.token);
+        dispatch(setUser(user));
     }
 }
 
@@ -38,13 +46,15 @@ export const isValidUser = () => {
         const loggedUserJSON = window.localStorage.getItem("loggedUser");
         if (loggedUserJSON) {
             const user = JSON.parse(loggedUserJSON);
-            const isValidToken = await loginService.checkToken(user.token)
-            if(!isValidToken) {
-                quoteService.setToken(user.token)
+            const isTokenExpired = await loginService.checkToken(user.token)
+            if(!isTokenExpired) {
+                quoteService.setToken(user.token);
+                postService.setToken(user.token);
                 dispatch(setUser(user))
             } else {
                 window.localStorage.clear();
                 dispatch(removeUser())
+
             }
         } else {
             dispatch(removeUser())
@@ -52,5 +62,23 @@ export const isValidUser = () => {
     }
 }
 
-export const { setUser, removeUser} = userSlice.actions
+export const requestLocation = () => {
+    return async dispatch => {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            const { latitude, longitude } = position.coords;
+            const location = { latitude, longitude };
+            locationService.setUserLocation(location);
+            dispatch(setLocation(location));
+          },
+          (error) => console.error('Error getting location:', error)
+        );
+      } else {
+        console.error('Geolocation is not supported by this browser.');
+      }
+    };
+  };
+
+export const { setUser, removeUser, setLocation, clearLocation} = userSlice.actions
 export default userSlice.reducer
