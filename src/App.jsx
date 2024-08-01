@@ -1,4 +1,4 @@
-import './App.css';
+import './assets/App.css';
 import Quotes from './components/Quotes';
 import {BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Post from './components/Post';

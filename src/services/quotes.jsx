@@ -1,6 +1,5 @@
 import axios from 'axios';
 
-
 const baseurl = "/api/quotes/"
 
 let token = null
@@ -19,7 +18,6 @@ axios.interceptors.request.use(config => {
 
 const getQuote = async () => {
     let response = await axios.get(baseurl + 'random');
-    console.log(response)
     return response.data
 }
 
