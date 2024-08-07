@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { isValidUser } from '../reducer/userReducer';
 import postService from '../services/postService';
 import Layout from '../components/Navbar';
@@ -8,7 +8,6 @@ import '../assets/PostForm.css'; // Import the CSS file
 const PostForm = () => {
   const [rant, setRant] = useState('');
   const [author, setAuthor] = useState('');
-  const token = "Bearer " + useSelector((state) => state.user.token);
   const dispatch = useDispatch();
 
   const handleRantChange = (e) => setRant(e.target.value);
@@ -21,7 +20,7 @@ const PostForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await postService.post(rant, author, token);
+      await postService.post(rant, author);
       // Clear form or show success message if needed
       setRant('');
       setAuthor('');
