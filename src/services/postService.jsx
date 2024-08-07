@@ -8,9 +8,12 @@ const setToken = (newToken) => {
 }
 
 const post = async (text, author) => {
+    const postDate = new Date();
+
     const post = {
       author,
-      text
+      text,
+      postDate
     };
 
     try {
