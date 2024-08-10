@@ -3,6 +3,7 @@ import quoteService from '../services/quotes';
 import loginService from '../services/login';
 import locationService from '../services/locationService';
 import postService from "../services/postService";
+import commentService from "../services/commentService";
 
 const initialState = {
     user: null,
@@ -37,6 +38,7 @@ export const initializeUser = (username, password) => {
         )
         quoteService.setToken(user.token);
         postService.setToken(user.token);
+        commentService.setToken(user.token);
         dispatch(setUser(user));
     }
 }
@@ -50,6 +52,7 @@ export const isValidUser = () => {
             if(!isTokenExpired) {
                 quoteService.setToken(user.token);
                 postService.setToken(user.token);
+                commentService.setToken(user.token);
                 dispatch(setUser(user))
             } else {
                 window.localStorage.clear();

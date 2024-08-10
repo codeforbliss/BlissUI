@@ -35,10 +35,18 @@ const post = async (text, author) => {
 
 const getAllPosts = async () => {
     try {
-        return await axios.get(baseUrl + '/all', {headers: {Authorization: token}})
+        return await axios.get(baseUrl + '/all');
     } catch (error) {
         console.error("Error getting posts:", error);
     }
 }
 
-export default {post, getAllPosts, setToken}
+const addCommentToPost = async (id, comment) => {
+    try {
+        axios.post(baseUrl + '/comment/' + id, comment);
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+export default {post, getAllPosts, addCommentToPost, setToken}
