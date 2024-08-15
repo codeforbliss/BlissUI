@@ -12,7 +12,6 @@ const Post = () => {
     const [posts, setPosts] = useState([]);
     const [newComment, setNewComment] = useState({}); // Store new comments
     const [newReply, setNewReply] = useState({}); // Store new replies
-    const [commentsMap, setCommentsMap] = useState({}); // Map of commentId to comments
     const dispatch = useDispatch();
     const user = useSelector((state) => state.user);
 
@@ -25,13 +24,7 @@ const Post = () => {
             if (user.token) {
                 try {
                     const postsData = await postService.getAllPosts();
-                    const postsWithComments = await Promise.all(postsData.data.map(async (post) => {
-                        const comments = await commentService.getCommentsByIds(post.comments);
-                        return {
-                            ...post,
-                            comments: comments.data
-                        };
-                    }));
+                    const postsWithComments = postsData.data;
                     setPosts(postsWithComments);
                 } catch (error) {
                     console.error("Failed to fetch posts or comments", error);
@@ -40,40 +33,6 @@ const Post = () => {
         };
         fetchPosts();
     }, [user.token]);
-
-
-    useEffect(() => {
-        const fetchCommentsRecursively = async (commentIds) => {
-            try {
-                const allComments = await commentService.getCommentsByIds(commentIds);
-                const comments = allComments.data;
-    
-                // Build a map of comments
-                const commentsMap = {};
-                for (const comment of comments) {
-                    commentsMap[comment.id] = comment;
-                    // Fetch replies if any
-                    if (comment.comments.length > 0) {
-                        const repliesMap = await fetchCommentsRecursively(comment.comments);
-                        Object.assign(commentsMap, repliesMap);
-                    }
-                }
-                return commentsMap;
-            } catch (error) {
-                console.error("Failed to fetch comments", error);
-                return {};
-            }
-        };
-    
-        const fetchAllComments = async () => {
-            const commentIds = posts.flatMap(post => post.comments.map(comment => comment.id)); 
-            if (commentIds.length > 0) {
-                const fetchedCommentsMap = await fetchCommentsRecursively(commentIds);
-                setCommentsMap(fetchedCommentsMap);
-            }
-        };
-        fetchAllComments();
-    }, [posts]);
 
     const handleCommentChange = (postId, value) => {
         setNewComment({
@@ -131,11 +90,10 @@ const Post = () => {
         }
     };
 
-    const renderComments = (commentIds) => {
+    const renderComments = (comments) => {
         return (
             <ul>
-                {commentIds.map((commentId) => {
-                    const comment = commentsMap[commentId];
+                {comments.map((comment) => {
                     if (!comment) return null; // Skip if comment not found
     
                     return (
@@ -188,7 +146,7 @@ const Post = () => {
                                 <div className="comments-section">
                                     <h6>Comments:</h6>
                                     {post.comments && post.comments.length > 0 ? (
-                                        renderComments(post.comments.map(comment => comment.id))
+                                        renderComments(post.comments)
                                     ) : (
                                         <p>No comments yet</p>
                                     )}

@@ -21,13 +21,20 @@ const addReplyToComment = async (id, comment) => {
     try {
         axios.post(baseUrl + "/comment/" + id, comment);
     } catch (error) {
-        console.log(error);
+        console.error(error);
     }
 }
 
 const getCommentsByIds = async (ids) => {
     try {
-        const response = await axios.post(`${baseUrl}/batch`, ids);
+        const response = await axios.get(baseUrl + '/batch', {
+            params : {
+                ids: ids.length > 0 ? ids : ['']
+            } ,
+            paramsSerializer: {
+                indexes: null
+            }
+        });
         return response;
     } catch (error) {
         console.error("Failed to fetch comments", error);
@@ -35,6 +42,13 @@ const getCommentsByIds = async (ids) => {
     }
 };
 
+const getAllComments = async () => {
+    try {
+        const response = await axios.get(baseUrl + '/all');
+        return response;
+    } catch (error) {
+        console.error("Failed to get all comments", error);
+    }
+}
 
-
-export default {addReplyToComment, getCommentsByIds, setToken}
+export default {addReplyToComment, getCommentsByIds, getAllComments, setToken}
