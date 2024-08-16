@@ -32,7 +32,7 @@ const Post = () => {
             }
         };
         fetchPosts();
-    }, [user.token]);
+    }, [user.token]);   
 
     const handleCommentChange = (postId, value) => {
         setNewComment({
