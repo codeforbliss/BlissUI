@@ -8,10 +8,12 @@ import '../assets/PostForm.css'; // Import the CSS file
 const PostForm = () => {
   const [rant, setRant] = useState('');
   const [author, setAuthor] = useState('');
+  const [emotion, setEmotion] = useState(''); // Default emotion state
   const dispatch = useDispatch();
 
   const handleRantChange = (e) => setRant(e.target.value);
   const handleAuthorChange = (e) => setAuthor(e.target.value);
+  const handleEmotionChange = (e) => setEmotion(e.target.value);
 
   useEffect(() => {
     dispatch(isValidUser());
@@ -20,10 +22,11 @@ const PostForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await postService.post(rant, author);
+      await postService.post(rant, author, emotion);
       // Clear form or show success message if needed
       setRant('');
       setAuthor('');
+      setEmotion(''); // Reset emotion after submit
     } catch (error) {
       // Handle error, e.g., show error message to user
     }
@@ -53,6 +56,23 @@ const PostForm = () => {
               onChange={handleAuthorChange}
               className="form-control"
             />
+          </div>
+          <div className="form-group">
+            <label>Emotion</label>
+            <select
+              value={emotion}
+              onChange={handleEmotionChange}
+              className="form-control"
+            >
+              <option value="">How you feeling?</option>
+              <option value="HAPPY">Happy</option>
+              <option value="SAD">Sad</option>
+              <option value="SCARED">Scared</option>
+              <option value="ANGRY">Angry</option>
+              <option value="ANXIETY">Anxious</option>
+              <option value="NOSTALGIA">Nostaligic</option>
+              <option value="EMBARRASED">Embarrased</option>
+            </select>
           </div>
           <button type="submit" className="submit-button">Submit</button>
         </form>

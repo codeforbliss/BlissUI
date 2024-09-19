@@ -1,0 +1,82 @@
+.homepage {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    height: 75vh;
+    font-family: 'Arial', sans-serif;
+  }
+  
+  .left-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 55%;
+  }
+  
+  .title {
+    font-size: 2em;
+    margin-bottom: 40px;
+    text-align: center;
+  }
+  
+  .options {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .option-button {
+    display: flex;
+    justify-content: center;
+    padding: 10px 20px;
+    border: 2px solid #000;
+    border-radius: 30px;
+    background-color: #fff;
+    font-size: 1em; /* Reduced the font size */
+    cursor: pointer;
+    width: 500px;
+    margin: 0 auto; /* Center horizontally */
+    transition: background-color 0.3s;
+    margin: 0 auto;
+  }
+  
+  .option-button:hover {
+    background-color: #f0f0f0;
+  }
+  
+  .icon {
+    font-size: 1.2em;
+    margin-right: 10px;
+  }
+  
+  .right-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 45%;
+  }
+  
+  .character {
+    width: 200px;
+    height: 200px;
+    background-color: #f9f9f9;
+    border-radius: 50%;
+    /* Add more styles here to match the character design */
+  }
+
+  @keyframes slide-out-top {
+    from {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    to {
+      transform: translateY(-200%);
+      opacity: 0;
+    }
+  }
+
+  .slide-out-top {
+	-webkit-animation: slide-out-top 0.5s cubic-bezier(0.550, 0.085, 0.680, 0.530) both;
+	        animation: slide-out-top 0.5s cubic-bezier(0.550, 0.085, 0.680, 0.530) both;
+  }

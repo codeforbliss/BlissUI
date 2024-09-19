@@ -17,12 +17,13 @@ axios.interceptors.request.use(
     },
     );
 
-const post = async (text, author) => {
+const post = async (text, author, emotion) => {
     const postDate = new Date();
     const post = {
       author,
       text,
-      postDate
+      postDate,
+      emotion
     };
 
     try {

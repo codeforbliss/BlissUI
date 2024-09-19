@@ -21,7 +21,6 @@ const Post = () => {
 
     useEffect(() => {
         const fetchPosts = async () => {
-            if (user.token) {
                 try {
                     const postsData = await postService.getAllPosts();
                     const postsWithComments = postsData.data;
@@ -29,10 +28,9 @@ const Post = () => {
                 } catch (error) {
                     console.error("Failed to fetch posts or comments", error);
                 }
-            }
         };
         fetchPosts();
-    }, [user.token]);   
+    }, []);   
 
     const handleCommentChange = (postId, value) => {
         setNewComment({
